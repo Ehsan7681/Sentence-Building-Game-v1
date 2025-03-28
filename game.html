@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#3498db">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>بازی جمله‌سازی فارسی</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game-style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h2>بازی جمله‌سازی</h2>
+            <div class="score-container">امتیاز: <span id="score">0</span></div>
+        </div>
+        
+        <div class="game-progress">
+            <div class="level-info">
+                <span class="level-label">مرحله:</span>
+                <span id="current-level">1</span>
+                <span class="level-separator">/</span>
+                <span id="total-levels">10</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <div class="game-content">
+            <div class="sentence-container" id="sentence-display">
+                <p>با کشیدن کلمات، جمله صحیح را بسازید:</p>
+            </div>
+            
+            <div class="word-bank" id="word-bank">
+                <!-- کلمات اینجا به صورت داینامیک قرار می‌گیرند -->
+            </div>
+            
+            <div class="sentence-builder" id="sentence-builder">
+                <!-- کلمات انتخاب شده اینجا قرار می‌گیرند -->
+            </div>
+            
+            <div class="game-controls">
+                <button id="check-button" class="game-button">بررسی جمله</button>
+                <button id="hint-button" class="game-button">راهنمایی (-۲ امتیاز)</button>
+                <button id="back-to-menu" class="game-button">بازگشت به منو</button>
+            </div>
+        </div>
+        
+        <div class="modal" id="result-modal">
+            <div class="modal-content">
+                <h3 id="result-message"></h3>
+                <p id="result-details"></p>
+            </div>
+        </div>
+        
+        <div class="modal" id="level-complete-modal">
+            <div class="modal-content">
+                <h3>تبریک! مرحله تکمیل شد</h3>
+                <p id="level-complete-details"></p>
+                <div class="level-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <button id="next-level-button" class="game-button">مرحله بعدی</button>
+            </div>
+        </div>
+        
+        <!-- مودال پایان بازی با افکت‌های جشن -->
+        <div class="modal" id="game-complete-modal">
+            <div class="modal-content celebration">
+                <div class="confetti-container" id="confetti-container"></div>
+                <h2 class="celebration-title">تبریک! 🎉</h2>
+                <div class="trophy">🏆</div>
+                <h3 class="celebration-subtitle">شما تمام مراحل بازی را با موفقیت به پایان رساندید!</h3>
+                <p id="final-score-details"></p>
+                <div class="celebration-stars">
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                </div>
+                <button id="back-to-menu-final" class="game-button celebration-button">بازگشت به منو اصلی</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html> 

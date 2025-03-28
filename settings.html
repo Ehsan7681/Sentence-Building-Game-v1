@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تنظیمات بازی</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="settings-style.css">
+</head>
+<body>
+    <button class="back-button" id="back-button" title="برگشت به صفحه قبل"></button>
+    
+    <div class="container">
+        <div class="settings-panel">
+            <h2>تنظیمات بازی</h2>
+            
+            <div class="settings-section">
+                <h3>تم بازی</h3>
+                <div class="theme-options">
+                    <div class="theme-option" data-theme="default">
+                        <div class="theme-preview default-theme"></div>
+                        <span>پیش‌فرض</span>
+                    </div>
+                    <div class="theme-option" data-theme="dark">
+                        <div class="theme-preview dark-theme"></div>
+                        <span>تیره</span>
+                    </div>
+                    <div class="theme-option" data-theme="nature">
+                        <div class="theme-preview nature-theme"></div>
+                        <span>طبیعت</span>
+                    </div>
+                    <div class="theme-option" data-theme="sunset">
+                        <div class="theme-preview sunset-theme"></div>
+                        <span>غروب</span>
+                    </div>
+                    <div class="theme-option" data-theme="white">
+                        <div class="theme-preview white-theme"></div>
+                        <span>سفید شفاف</span>
+                    </div>
+                    <div class="theme-option" data-theme="skyblue">
+                        <div class="theme-preview skyblue-theme"></div>
+                        <span>آبی آسمانی</span>
+                    </div>
+                    <div class="theme-option" data-theme="purple">
+                        <div class="theme-preview purple-theme"></div>
+                        <span>بنفش شیک</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>سطح سختی</h3>
+                <div class="difficulty-options">
+                    <label class="difficulty-option">
+                        <input type="radio" name="difficulty" value="easy" checked>
+                        <span>آسان</span>
+                    </label>
+                    <label class="difficulty-option">
+                        <input type="radio" name="difficulty" value="medium">
+                        <span>متوسط</span>
+                    </label>
+                    <label class="difficulty-option">
+                        <input type="radio" name="difficulty" value="hard">
+                        <span>سخت</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-buttons">
+                <button id="save-settings" class="settings-button">ذخیره تنظیمات</button>
+                <button id="back-to-menu" class="settings-button">بازگشت به منو</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="settings.js"></script>
+</body>
+</html> 
