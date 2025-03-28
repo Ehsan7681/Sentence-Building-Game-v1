@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextLevelButton = document.getElementById('next-level-button');
     const stars = document.querySelectorAll('.star');
     
+    // المان‌های صوتی
+    const correctSound = document.getElementById('correct-sound');
+    const wrongSound = document.getElementById('wrong-sound');
+    const celebrationSound = document.getElementById('celebration-sound');
+    
     // متغیرهای بازی
     let currentSentence = [];
     let currentWords = [];
@@ -38,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLevel = 1;
     let totalLevels = 10; // تعداد مراحل در هر سطح
     let levelSentences = []; // جملات برای مراحل بازی
+    
+    // متغیر برای کنترل فعال بودن صدا
+    let soundEnabled = true;
     
     // تابع تبدیل اعداد انگلیسی به فارسی
     function toFarsiNumber(n) {
@@ -349,6 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // ایجاد افکت کانفتی
         createConfetti();
         
+        // پخش صدای جشن
+        playCelebrationSound();
+        
         // نمایش مودال
         const gameCompleteModal = document.getElementById('game-complete-modal');
         gameCompleteModal.style.display = 'flex';
@@ -532,6 +543,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (isCorrect) {
+            // پخش صدای جواب درست
+            playCorrectSound();
+            
             // کاهش امتیاز در صورت استفاده از راهنمایی
             const points = hintUsed ? Math.floor(basePoints / 2) : basePoints;
             score += points;
@@ -548,6 +562,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLevelCompleteModal(points);
             }, 1000);
         } else {
+            // پخش صدای جواب اشتباه
+            playWrongSound();
+            
             showModal('اشتباه!', 'جمله درست نیست. دوباره تلاش کنید.');
             sentenceBuilder.classList.add('wrong-answer');
             setTimeout(() => {
@@ -1018,5 +1035,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+    }
+    
+    // توابع برای پخش صدا
+    function playSound(soundElement) {
+        if (soundEnabled && soundElement) {
+            // بررسی اینکه آیا فایل صوتی بارگذاری شده است
+            if (soundElement.readyState === 0) {
+                console.warn("فایل صوتی بارگذاری نشده است.");
+                return;
+            }
+            
+            // ریست کردن صدا قبل از پخش برای اطمینان از پخش مجدد
+            soundElement.pause();
+            soundElement.currentTime = 0;
+            
+            // تلاش برای پخش صدا با catch کردن خطاهای احتمالی
+            const playPromise = soundElement.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.error("خطا در پخش صدا:", error);
+                });
+            }
+        }
+    }
+    
+    // توابع اختصاصی پخش صدا
+    function playCorrectSound() {
+        playSound(correctSound);
+    }
+    
+    function playWrongSound() {
+        playSound(wrongSound);
+    }
+    
+    function playCelebrationSound() {
+        playSound(celebrationSound);
     }
 }); 
