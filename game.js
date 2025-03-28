@@ -575,9 +575,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // تابع نمایش راهنمایی
     function showHint() {
+        // تعیین تعداد مجاز راهنمایی براساس سطح سختی
+        const difficulty = localStorage.getItem('difficulty') || 'easy';
+        let maxHints = 2; // پیش‌فرض برای سطح آسان
+        
+        if (difficulty === 'medium') {
+            maxHints = 3;
+        } else if (difficulty === 'hard') {
+            maxHints = 4;
+        }
+        
         // بررسی تعداد دفعات استفاده از راهنمایی
-        if (hintCount >= 2) {
-            showModal('محدودیت راهنمایی', 'شما در این مرحله بیش از ۲ بار نمی‌توانید از راهنمایی استفاده کنید.');
+        if (hintCount >= maxHints) {
+            const hintMessage = `شما در این مرحله بیش از ${toFarsiNumber(maxHints)} بار نمی‌توانید از راهنمایی استفاده کنید.`;
+            showModal('محدودیت راهنمایی', hintMessage);
             return;
         }
         
