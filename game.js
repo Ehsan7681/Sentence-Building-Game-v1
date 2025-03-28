@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ثبت سرویس ورکر برای PWA
     registerServiceWorker();
     
+    // راه‌اندازی دکمه تمام‌صفحه
+    setupFullscreenButton();
+    
     // المان‌های اصلی
     const wordBank = document.getElementById('word-bank');
     const sentenceBuilder = document.getElementById('sentence-builder');
@@ -784,12 +787,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // ایجاد نمای تمام صفحه برای موبایل
         const goFullScreen = () => {
-            if (document.fullscreenEnabled) {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.log(`خطا در رفتن به حالت تمام صفحه: ${err.message}`);
-                    });
-                }
+            // استفاده از تابع toggleFullScreen به جای کد قبلی
+            const docElm = document.documentElement;
+            if (!document.fullscreenElement && docElm.requestFullscreen) {
+                docElm.requestFullscreen().catch(err => {
+                    console.log(`خطا در رفتن به حالت تمام صفحه: ${err.message}`);
+                });
+            } else if (!document.webkitFullscreenElement && docElm.webkitRequestFullscreen) {
+                docElm.webkitRequestFullscreen();
+            } else if (!document.mozFullScreenElement && docElm.mozRequestFullScreen) {
+                docElm.mozRequestFullScreen();
+            } else if (!document.msFullscreenElement && docElm.msRequestFullscreen) {
+                docElm.msRequestFullscreen();
             }
         };
         
@@ -938,5 +947,76 @@ document.addEventListener('DOMContentLoaded', () => {
                 originalParent = null;
             }
         }, { passive: false });
+    }
+    
+    // راه‌اندازی دکمه تمام‌صفحه
+    function setupFullscreenButton() {
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        
+        // بررسی پشتیبانی مرورگر از API تمام‌صفحه
+        const isFullscreenSupported = document.fullscreenEnabled || 
+            document.webkitFullscreenEnabled || 
+            document.mozFullScreenEnabled ||
+            document.msFullscreenEnabled;
+        
+        // نمایش دکمه فقط در صورت پشتیبانی مرورگر
+        if (!isFullscreenSupported) {
+            fullscreenButton.style.display = 'none';
+            return;
+        }
+        
+        // بررسی وضعیت فعلی تمام‌صفحه
+        function updateFullscreenButtonIcon() {
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement ||
+                document.msFullscreenElement) {
+                fullscreenButton.classList.add('fullscreen-exit');
+            } else {
+                fullscreenButton.classList.remove('fullscreen-exit');
+            }
+        }
+        
+        // تغییر وضعیت تمام‌صفحه با کلیک روی دکمه
+        fullscreenButton.addEventListener('click', () => {
+            toggleFullScreen();
+        });
+        
+        // رویداد تغییر حالت تمام‌صفحه
+        document.addEventListener('fullscreenchange', updateFullscreenButtonIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButtonIcon);
+        document.addEventListener('mozfullscreenchange', updateFullscreenButtonIcon);
+        document.addEventListener('MSFullscreenChange', updateFullscreenButtonIcon);
+        
+        // تابع تغییر وضعیت تمام‌صفحه
+        function toggleFullScreen() {
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement ||
+                document.msFullscreenElement) {
+                // خروج از حالت تمام‌صفحه
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            } else {
+                // ورود به حالت تمام‌صفحه
+                const docElm = document.documentElement;
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen();
+                } else if (docElm.webkitRequestFullscreen) {
+                    docElm.webkitRequestFullscreen();
+                } else if (docElm.mozRequestFullScreen) {
+                    docElm.mozRequestFullScreen();
+                } else if (docElm.msRequestFullscreen) {
+                    docElm.msRequestFullscreen();
+                }
+            }
+        }
     }
 }); 
